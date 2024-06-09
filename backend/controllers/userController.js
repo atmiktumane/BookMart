@@ -1,5 +1,9 @@
-const bcrypt = require("bcryptjs");
+// mongoDb gives response data as promise,
+// in order to handle promise, we use try-catch block in controllers to handle exceptions
+// instead of try-catch block, we can use express-async-handler.
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 //@desc Register the User
@@ -57,4 +61,52 @@ const registerUser = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Registered the User Successfully" });
 });
 
-module.exports = { registerUser };
+//@desc login User
+//route POST "/api/v1/login"
+//access Public
+const loginUser = asyncHandler(async (req, res) => {
+  const { username, password } = req.body;
+
+  // simple validation
+  if (!username || !password) {
+    res.json(400);
+    throw new Error("All Fields are mandatory to Login");
+  }
+
+  // Check if User exists in database
+  const existingUser = await User.findOne({ username });
+  if (!existingUser) {
+    res.status(400);
+    throw new Error("Username does not exists");
+  }
+
+  // Check Password : Compare req.password with HashedPassword present in database
+  const isMatchPass = await bcrypt.compare(password, existingUser.password);
+  if (!isMatchPass) {
+    res.status(400);
+    throw new Error("Invalid Credentials");
+  }
+
+  // Create JWT Payload
+  const jwtPayload = {
+    user: {
+      name: existingUser.username,
+      role: existingUser.role,
+    },
+  };
+
+  // Sign JWT Token : Generate Token
+  const accessToken = jwt.sign(
+    jwtPayload,
+    process.env.ACCESS_TOKEN_SECRET_KEY,
+    { expiresIn: "30d" } // Token expires in 30 days
+  );
+
+  res.status(201).json({
+    id: existingUser._id,
+    role: existingUser.role,
+    token: accessToken,
+  });
+});
+
+module.exports = { registerUser, loginUser };
