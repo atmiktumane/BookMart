@@ -4,8 +4,9 @@ require("dotenv").config();
 // Import required packages
 const express = require("express");
 
-// Import custom connections
+// Import custom middlewares & connections
 const connectDB = require("./config/dbConnection");
+const errorHandler = require("./middleware/errorHandler");
 
 // Initialize the Express application
 const app = express();
@@ -16,7 +17,11 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
+// Define your routes
 app.use("/api/v1", require("./routes/userRoute"));
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Define the port from environment variables or use default
 const port = process.env.PORT || 5000;
