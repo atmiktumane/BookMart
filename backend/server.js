@@ -10,8 +10,13 @@ const connectDB = require("./config/dbConnection");
 // Initialize the Express application
 const app = express();
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+
 // Connect to MongoDB
 connectDB();
+
+app.use("/api/v1", require("./routes/userRoute"));
 
 // Define the port from environment variables or use default
 const port = process.env.PORT || 5000;
