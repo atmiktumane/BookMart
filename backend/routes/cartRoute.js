@@ -3,6 +3,7 @@ const authenticateToken = require("../middleware/validateTokenHandler");
 const {
   addBookInCart,
   removeBookFromCart,
+  getAllBooksFromCart,
 } = require("../controllers/cartController");
 
 const router = express.Router();
@@ -16,5 +17,8 @@ router.put(
   authenticateToken,
   removeBookFromCart
 );
+
+// get all books from Cart of a particular user
+router.get("/get-user-cart", authenticateToken, getAllBooksFromCart);
 
 module.exports = router;
