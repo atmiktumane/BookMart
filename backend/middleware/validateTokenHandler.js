@@ -3,7 +3,13 @@ const jwt = require("jsonwebtoken");
 
 const authenticateToken = asyncHandler(async (req, res, next) => {
   let token;
-  let authHeader = req.headers["Authorization"] || req.headers["authorization"];
+  let authHeader =
+    req.headers["Authorization"] || req.headers["authorization"] || "";
+
+  if (authHeader === "") {
+    res.status(400);
+    throw new Error("Authorization Header is required to validate token");
+  }
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
@@ -17,6 +23,7 @@ const authenticateToken = asyncHandler(async (req, res, next) => {
       }
       // console.log(decoded);
       req.user = decoded.user;
+
       next();
     });
 

@@ -17,9 +17,10 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
-// Define your routes
+// Define the routes
 app.use("/api/v1", require("./routes/userRoute"));
 app.use("/api/v1", require("./routes/bookRoute"));
+app.use("/api/v1", require("./routes/favouriteRoute"));
 
 // Error handling middleware
 app.use(errorHandler);
