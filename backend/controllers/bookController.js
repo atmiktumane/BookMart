@@ -71,4 +71,40 @@ const updateBook = asyncHandler(async (req, res) => {
     .json({ message: "Book Updated Successfully", updateData: updatedBook });
 });
 
-module.exports = { addBook, updateBook };
+//@desc Delete the Book
+//route DELETE "api/v1/delete-book"
+//access Private -> Admin
+const deleteBook = asyncHandler(async (req, res) => {
+  // "req.user" -> getting from "validateTokenHandler" middleware
+  const user = req.user;
+
+  if (user.role !== "admin") {
+    res.status(401);
+    throw new Error("User don't have access to delete Book");
+  }
+
+  const { bookid } = req.headers;
+
+  // check if bookid is received correctly or not
+  if (!bookid) {
+    res.status(400);
+    throw new Error("bookid is not present in headers");
+  }
+
+  // check if book is present in Database or not
+  const bookToBeDeleted = await Book.findById(bookid);
+  if (!bookToBeDeleted) {
+    res.status(400);
+    throw new Error("bookToBeDeleted is not present in Database");
+  }
+
+  // Delete Book
+  const deletedBook = await Book.findByIdAndDelete(bookid);
+
+  res.status(200).json({
+    message: "Deleted Book Successfully",
+    DeletedBook: deletedBook,
+  });
+});
+
+module.exports = { addBook, updateBook, deleteBook };
