@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Order = require("../models/orderModel");
 
 //@desc Place Order by user
 //route POST "/api/v1/place-order"
@@ -50,4 +51,25 @@ const getOrderHistory = asyncHandler(async (req, res) => {
     .json({ message: "Get all Order History of a user", data: ordersData });
 });
 
-module.exports = { placeOrder, getOrderHistory };
+//@desc Get All Orders
+//route GET "/api/v1/get-all-orders"
+//access Private -> Admin
+const getAllOrders = asyncHandler(async (req, res) => {
+  // Check whether user is admin or not -> using "ValidateTokenHandler" middleware ---> if user is admin then only proceed, otherwise give error
+  const user = req.user;
+  if (user.role !== "admin") {
+    res.status(401);
+    throw new Error("User does not have access to get all orders of all users");
+  }
+
+  const orderData = await Order.find()
+    .populate({ path: "book" })
+    .populate({ path: "user" })
+    .sort({ createdAt: -1 });
+
+  res
+    .status(200)
+    .json({ message: "All User's Order", allUserOrders: orderData });
+});
+
+module.exports = { placeOrder, getOrderHistory, getAllOrders };
