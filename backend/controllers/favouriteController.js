@@ -49,4 +49,52 @@ const addBookToFavourites = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { addBookToFavourites };
+//@desc Remove book from favourites
+//route PUT "api/v1/remove-book-from-favourites"
+//access Private
+const removeBookFromFavourites = asyncHandler(async (req, res) => {
+  const authorizedUser = req.user;
+
+  const { id, bookid } = req.headers;
+
+  // Validate Request body
+  if (!id || !bookid) {
+    res.status(400);
+    throw new Error("userid or bookid is not present");
+  }
+
+  //get user from Database using id
+  const userData = await User.findById(id);
+
+  // Verify whether user is authorized to remove book from favourites or not because user cannot update favourites list of other users
+  if (authorizedUser.name !== userData.username) {
+    res.status(401);
+    throw new Error("User is not Authorized to remove book from favourites");
+  }
+
+  //check whether user is in database or not
+  if (!userData) {
+    res.status(404);
+    throw new Error("User not found in Database");
+  }
+
+  // check if book is present in favourites or not
+  const isBookInFavourites = userData.favourites.includes(bookid);
+
+  // book is not in favourites , then throw error
+  if (!isBookInFavourites) {
+    res.status(400);
+    throw new Error("Book is not in Favourites");
+  }
+
+  // if book is in favourites, then remove book from favourites
+  await User.findByIdAndUpdate(
+    id,
+    { $pull: { favourites: bookid } },
+    { new: true }
+  );
+
+  res.status(200).json({ message: "Book is removed from Favourites" });
+});
+
+module.exports = { addBookToFavourites, removeBookFromFavourites };
