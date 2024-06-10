@@ -129,10 +129,29 @@ const getRecentBooks = asyncHandler(async (req, res) => {
     .json({ message: "Got Recently added Books", data: recentBooks });
 });
 
+//@desc Get a particular Book Details
+//route GET "api/v1/get-book-details/:id"
+//access Public
+const getBookDetails = asyncHandler(async (req, res) => {
+  const bookid = req.params.id;
+
+  if (!bookid) {
+    res.status(400);
+    throw new Error("Bookid is required");
+  }
+
+  const bookData = await Book.findById(bookid);
+
+  res
+    .status(200)
+    .json({ message: "Success to get Book Details", BookDetails: bookData });
+});
+
 module.exports = {
   addBook,
   updateBook,
   deleteBook,
   getAllBooks,
   getRecentBooks,
+  getBookDetails,
 };

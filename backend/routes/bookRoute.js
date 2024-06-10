@@ -6,6 +6,7 @@ const {
   deleteBook,
   getAllBooks,
   getRecentBooks,
+  getBookDetails,
 } = require("../controllers/bookController");
 
 const router = express.Router();
@@ -24,5 +25,8 @@ router.get("/get-all-books", getAllBooks);
 
 // get recently added books limit to 4 books
 router.get("/get-recent-books", getRecentBooks);
+
+// get particular book details
+router.get("/get-book-details/:id", getBookDetails);
 
 module.exports = router;
