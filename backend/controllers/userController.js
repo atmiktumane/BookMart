@@ -119,4 +119,25 @@ const currentUser = asyncHandler(async (req, res) => {
   return res.status(200).json(data);
 });
 
-module.exports = { registerUser, loginUser, currentUser };
+//@desc Update address of current user
+//route PUT "/api/v1/update-address"
+//access Private
+const updateAddress = asyncHandler(async (req, res) => {
+  const { id } = req.headers;
+  const { address } = req.body;
+
+  const updatedAddress = await User.findByIdAndUpdate(
+    id,
+    { address: address },
+    { new: true }
+  );
+
+  return res.status(200).json({
+    message: "Updated Address Successfully",
+    id: updatedAddress.id,
+    username: updatedAddress.username,
+    updatedAddress: updatedAddress.address,
+  });
+});
+
+module.exports = { registerUser, loginUser, currentUser, updateAddress };

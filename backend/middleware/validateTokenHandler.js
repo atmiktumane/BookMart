@@ -11,7 +11,9 @@ const authenticateToken = asyncHandler(async (req, res, next) => {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY, (err, decoded) => {
       if (err) {
         res.status(403);
-        throw new Error("Token Expired. Please Login again!");
+        throw new Error(
+          "Token Expired. Please Login again and provide current token!"
+        );
       }
       // console.log(decoded);
       req.user = decoded.user;

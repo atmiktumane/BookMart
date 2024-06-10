@@ -3,6 +3,7 @@ const {
   registerUser,
   loginUser,
   currentUser,
+  updateAddress,
 } = require("../controllers/userController");
 const authenticateToken = require("../middleware/validateTokenHandler");
 
@@ -16,5 +17,8 @@ router.post("/login", loginUser);
 
 // current user -> get current user info
 router.get("/current-user", authenticateToken, currentUser);
+
+// update address of current user
+router.put("/update-address", authenticateToken, updateAddress);
 
 module.exports = router;
