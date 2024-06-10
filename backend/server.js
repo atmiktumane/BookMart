@@ -22,6 +22,7 @@ app.use("/api/v1", require("./routes/userRoute"));
 app.use("/api/v1", require("./routes/bookRoute"));
 app.use("/api/v1", require("./routes/favouriteRoute"));
 app.use("/api/v1", require("./routes/cartRoute"));
+app.use("/api/v1", require("./routes/orderRoute"));
 
 // Error handling middleware
 app.use(errorHandler);
