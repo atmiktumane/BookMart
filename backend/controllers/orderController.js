@@ -32,4 +32,22 @@ const placeOrder = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Order Placed Successfully" });
 });
 
-module.exports = { placeOrder };
+//@desc Get Order History of a particular user
+//route GET "/api/v1/get-order-history"
+//access Private
+const getOrderHistory = asyncHandler(async (req, res) => {
+  const { id } = req.headers;
+
+  const userData = await User.findById(id).populate({
+    path: "orders",
+    populate: { path: "book" },
+  });
+
+  const ordersData = userData.orders.reverse();
+
+  res
+    .status(200)
+    .json({ message: "Get all Order History of a user", data: ordersData });
+});
+
+module.exports = { placeOrder, getOrderHistory };
