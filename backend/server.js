@@ -19,6 +19,7 @@ connectDB();
 
 // Define your routes
 app.use("/api/v1", require("./routes/userRoute"));
+app.use("/api/v1", require("./routes/bookRoute"));
 
 // Error handling middleware
 app.use(errorHandler);
