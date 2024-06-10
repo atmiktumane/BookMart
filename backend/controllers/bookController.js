@@ -107,4 +107,14 @@ const deleteBook = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { addBook, updateBook, deleteBook };
+//@desc Get all books
+//route GET "api/v1/get-all-books"
+//access Public
+const getAllBooks = asyncHandler(async (req, res) => {
+  // get all books in sorted order w.r.t createdAt -> means recently added book will be at top
+  const allBooks = await Book.find().sort({ createdAt: -1 });
+
+  res.status(200).json({ message: "Success to get all books", data: allBooks });
+});
+
+module.exports = { addBook, updateBook, deleteBook, getAllBooks };
