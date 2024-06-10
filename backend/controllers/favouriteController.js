@@ -5,6 +5,7 @@ const User = require("../models/userModel");
 //route PUT "/api/v1/add-book-to-favourites"
 //access Private
 const addBookToFavourites = asyncHandler(async (req, res) => {
+  // get authorized user from Token ->  getting from middleware validateTokenHandler
   const authorizedUser = req.user;
   const { id, bookid } = req.headers;
 
@@ -53,6 +54,7 @@ const addBookToFavourites = asyncHandler(async (req, res) => {
 //route PUT "api/v1/remove-book-from-favourites"
 //access Private
 const removeBookFromFavourites = asyncHandler(async (req, res) => {
+  // get authorized user from Token ->  getting from middleware validateTokenHandler
   const authorizedUser = req.user;
 
   const { id, bookid } = req.headers;
@@ -97,4 +99,44 @@ const removeBookFromFavourites = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Book is removed from Favourites" });
 });
 
-module.exports = { addBookToFavourites, removeBookFromFavourites };
+//@desc Get all favourite books of a particular user
+//route GET "api/v1/get-favourite-books"
+//access Private
+const getAllFavouriteBooks = asyncHandler(async (req, res) => {
+  // get authorized user from Token ->  getting from middleware validateTokenHandler
+  const authorizedUser = req.user;
+
+  const { id } = req.headers;
+
+  // Validate request body
+  if (!id) {
+    res.status(400);
+    throw new Error("UserId is required");
+  }
+
+  // get user data from database using id
+  const userData = await User.findById(id).populate("favourites");
+
+  // Verify whether user is authorized to remove book from favourites or not because user cannot update favourites list of other users
+  if (authorizedUser.name !== userData.username) {
+    res.status(401);
+    throw new Error("User is not Authorized to get all books from favourites");
+  }
+
+  // check if User is present in Database or not
+  if (!userData) {
+    res.status(404);
+    throw new Error("User is not found in database");
+  }
+
+  // Get Favourites array from User
+  const favouriteBooks = userData.favourites;
+
+  res.status(200).json({ message: "Got all FavouriteBooks", favouriteBooks });
+});
+
+module.exports = {
+  addBookToFavourites,
+  removeBookFromFavourites,
+  getAllFavouriteBooks,
+};

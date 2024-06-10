@@ -3,6 +3,7 @@ const authenticateToken = require("../middleware/validateTokenHandler");
 const {
   addBookToFavourites,
   removeBookFromFavourites,
+  getAllFavouriteBooks,
 } = require("../controllers/favouriteController");
 
 const router = express.Router();
@@ -16,5 +17,8 @@ router.put(
   authenticateToken,
   removeBookFromFavourites
 );
+
+//get all favourite books of a particular user
+router.get("/get-favourite-books", authenticateToken, getAllFavouriteBooks);
 
 module.exports = router;
