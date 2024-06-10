@@ -117,4 +117,22 @@ const getAllBooks = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Success to get all books", data: allBooks });
 });
 
-module.exports = { addBook, updateBook, deleteBook, getAllBooks };
+//@desc Get 4 recent books
+//route GET "api/v1/get-recent-books"
+//access Public
+const getRecentBooks = asyncHandler(async (req, res) => {
+  // get recently added 4 books
+  const recentBooks = await Book.find().sort({ createdAt: -1 }).limit(4);
+
+  res
+    .status(200)
+    .json({ message: "Got Recently added Books", data: recentBooks });
+});
+
+module.exports = {
+  addBook,
+  updateBook,
+  deleteBook,
+  getAllBooks,
+  getRecentBooks,
+};
