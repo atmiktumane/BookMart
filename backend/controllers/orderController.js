@@ -72,4 +72,28 @@ const getAllOrders = asyncHandler(async (req, res) => {
     .json({ message: "All User's Order", allUserOrders: orderData });
 });
 
-module.exports = { placeOrder, getOrderHistory, getAllOrders };
+//@desc Update Order Status
+//route PUT "api/v1/update-order-status/:id"   -->  id = order id
+//access Private -> Admin
+const updateOrderStatus = asyncHandler(async (req, res) => {
+  // Check whether user is admin or not -> using "ValidateTokenHandler" middleware ---> if user is admin then only proceed, otherwise give error
+  const user = req.user;
+  if (user.role !== "admin") {
+    res.status(401);
+    throw new Error("Only Admin have access to update order status");
+  }
+  // id -> order_id
+  const { id } = req.params;
+
+  // Update order status
+  await Order.findByIdAndUpdate(id, { status: req.body.status });
+
+  res.status(200).json({ message: "Status updated successfully" });
+});
+
+module.exports = {
+  placeOrder,
+  getOrderHistory,
+  getAllOrders,
+  updateOrderStatus,
+};

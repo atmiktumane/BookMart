@@ -4,6 +4,7 @@ const {
   placeOrder,
   getOrderHistory,
   getAllOrders,
+  updateOrderStatus,
 } = require("../controllers/orderController");
 
 const router = express.Router();
@@ -16,5 +17,8 @@ router.get("/get-order-history", authenticateToken, getOrderHistory);
 
 // Get All Orders --> admin
 router.get("/get-all-orders", authenticateToken, getAllOrders);
+
+// Update Order Status --> admin
+router.put("/update-order-status/:id", authenticateToken, updateOrderStatus);
 
 module.exports = router;
