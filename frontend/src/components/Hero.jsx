@@ -3,7 +3,7 @@ import React from "react";
 export const Hero = () => {
   return (
     // Hero Section
-    <div className="h-[75vh] flex">
+    <div className="md:h-[75vh] flex flex-col md:flex-row">
       {/* Column 1 - Content */}
       <div className="w-full lg:w-3/6 flex flex-col items-center lg:items-start justify-center">
         <span className="text-4xl lg:text-6xl font-semibold text-yellow-100 text-center lg:text-left">
