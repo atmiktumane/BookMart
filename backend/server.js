@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 
 // Import required packages
 const express = require("express");
+const cors = require("cors");
 
 // Import custom middlewares & connections
 const connectDB = require("./config/dbConnection");
@@ -10,6 +11,8 @@ const errorHandler = require("./middleware/errorHandler");
 
 // Initialize the Express application
 const app = express();
+
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(express.json());
