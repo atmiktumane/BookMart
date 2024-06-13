@@ -31,7 +31,7 @@ export const AllBooks = () => {
   }, []);
 
   return (
-    <section className="min-h-screen px-8 py-12 bg-zinc-900 flex flex-col items-center">
+    <section className="min-h-[84vh] px-4 md:px-8 py-12 bg-zinc-900 flex flex-col items-center">
       <h3 className="text-3xl text-purple-300 font-semibold">All Books</h3>
 
       {/* Display All Books, if not present then show no books available */}

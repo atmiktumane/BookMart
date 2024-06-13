@@ -5,7 +5,10 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 export const BookCard = ({ data }) => {
   // console.log(data);
   return (
-    <Link className="bg-zinc-800 p-4 rounded flex flex-col justify-between">
+    <Link
+      to={`/view-book-details/${data._id}`}
+      className="bg-zinc-800 p-4 rounded flex flex-col justify-between"
+    >
       <div className="content-1">
         <div className="bg-zinc-900 flex items-center justify-center rounded">
           <img src={data.url} alt="/" className="h-[24vh] w-[18vh]" />

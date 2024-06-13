@@ -32,7 +32,7 @@ export const RecentlyAddedBooks = () => {
   }, []);
 
   return (
-    <section className="mt-8 px-4">
+    <section className="mt-8 px-0 md:px-4">
       <h3 className="text-3xl text-purple-300 text-center">
         Recently Added Books
       </h3>

@@ -1,6 +1,7 @@
 import React from "react";
 
 export const Loader = () => {
+  // This Loader is taken from "Flowbite" - Loader Tailwind CSS
   return (
     <div role="status">
       <svg
