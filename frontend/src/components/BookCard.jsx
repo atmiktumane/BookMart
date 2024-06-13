@@ -6,7 +6,7 @@ export const BookCard = ({ data }) => {
   // console.log(data);
   return (
     <Link className="bg-zinc-800 p-4 rounded flex flex-col">
-      <div className="bg-zinc-900 flex items-center justify-center">
+      <div className="bg-zinc-900 flex items-center justify-center rounded">
         <img src={data.url} alt="/" className="h-[24vh] w-[18vh]" />
       </div>
 

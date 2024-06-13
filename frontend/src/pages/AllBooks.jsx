@@ -1,5 +1,46 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { BookCard } from "../components";
 
 export const AllBooks = () => {
-  return <div>AllBooks</div>;
+  const [dataArray, setDataArray] = useState([]);
+
+  // Map through dataArray and render BookCards component
+  const renderAllBooks = dataArray.map((item, index) => {
+    return <BookCard key={index} data={item} />;
+  });
+
+  // In useEffect, use axios to fetch all books data from database using Backend API
+  useEffect(() => {
+    const fetchAllBooks = async () => {
+      try {
+        const response = await axios.get("/api/v1/get-all-books");
+        // console.log(response.data.data);
+        setDataArray(response.data.data);
+      } catch (error) {
+        console.error("Error while fetching All Books : ", error);
+      }
+    };
+
+    fetchAllBooks();
+  }, []);
+
+  return (
+    <section className="min-h-screen px-8 py-12 bg-zinc-900 flex flex-col items-center">
+      <h3 className="text-3xl text-purple-300 font-semibold">All Books</h3>
+
+      {/* Display All Books, if not present then show no books available */}
+      <div className="display-all-books">
+        {dataArray.length > 0 ? (
+          <div className="my-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-8">
+            {renderAllBooks}
+          </div>
+        ) : (
+          <p className="mt-8 font-semibold text-center text-white">
+            No Books are available.
+          </p>
+        )}
+      </div>
+    </section>
+  );
 };

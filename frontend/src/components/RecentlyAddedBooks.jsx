@@ -32,7 +32,7 @@ export const RecentlyAddedBooks = () => {
       </h3>
 
       {/* Display Recently Added Books, if not present then show no books available */}
-      <div className="display-books">
+      <div className="display-recent-books">
         {dataArray.length > 0 ? (
           <div className="my-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-8">
             {renderRecentBooks}
