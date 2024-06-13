@@ -1,9 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BookCard } from "../components";
+import { BookCard, Loader } from "../components";
 
 export const AllBooks = () => {
   const [dataArray, setDataArray] = useState([]);
+
+  // loading state to manage Loading status
+  const [loading, setLoading] = useState(true);
 
   // Map through dataArray and render BookCards component
   const renderAllBooks = dataArray.map((item, index) => {
@@ -19,6 +22,8 @@ export const AllBooks = () => {
         setDataArray(response.data.data);
       } catch (error) {
         console.error("Error while fetching All Books : ", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -31,7 +36,11 @@ export const AllBooks = () => {
 
       {/* Display All Books, if not present then show no books available */}
       <div className="display-all-books">
-        {dataArray.length > 0 ? (
+        {loading ? (
+          <div className="m-20">
+            <Loader />
+          </div>
+        ) : dataArray.length > 0 ? (
           <div className="my-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-8">
             {renderAllBooks}
           </div>

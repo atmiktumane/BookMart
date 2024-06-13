@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BookCard } from "./BookCard";
+import { Loader } from "./Loader";
 
 export const RecentlyAddedBooks = () => {
   const [dataArray, setDataArray] = useState([]);
+
+  // loading state to manage Loading status
+  const [loading, setLoading] = useState(true);
 
   // Map through dataArray and render BookCard component
   const renderRecentBooks = dataArray.map((item, index) => {
@@ -19,6 +23,8 @@ export const RecentlyAddedBooks = () => {
         setDataArray(response.data.data);
       } catch (error) {
         console.error("Error while fetching recent books : ", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -33,7 +39,11 @@ export const RecentlyAddedBooks = () => {
 
       {/* Display Recently Added Books, if not present then show no books available */}
       <div className="display-recent-books">
-        {dataArray.length > 0 ? (
+        {loading ? (
+          <div className="my-12 flex justify-center">
+            <Loader />
+          </div>
+        ) : dataArray.length > 0 ? (
           <div className="my-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-8">
             {renderRecentBooks}
           </div>

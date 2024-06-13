@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -6,7 +7,7 @@ export const Hero = () => {
     <div className="md:h-[75vh] flex flex-col md:flex-row">
       {/* Column 1 - Content */}
       <div className="w-full lg:w-3/6 flex flex-col items-center lg:items-start justify-center">
-        <span className="text-4xl lg:text-6xl font-semibold text-yellow-100 text-center lg:text-left">
+        <span className="text-4xl lg:text-6xl font-semibold text-purple-300 text-center lg:text-left">
           Discover Your Next Great Read
         </span>
 
@@ -16,9 +17,12 @@ export const Hero = () => {
         </p>
 
         <div className="mt-8">
-          <button className="text-yellow-100 text-xl lg:text-2xl font-semibold border border-yellow-100 px-10 py-2 rounded-full hover:bg-zinc-800">
+          <Link
+            to="/all-books"
+            className="text-purple-300 text-xl lg:text-2xl font-semibold border border-purple-300 px-10 py-2 rounded-full hover:bg-zinc-800"
+          >
             Discover Books
-          </button>
+          </Link>
         </div>
       </div>
 
