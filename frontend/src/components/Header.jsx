@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { IoReorderThreeOutline, IoClose } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 export const Header = () => {
   const [mobileNav, setMobileNav] = useState("hidden");
@@ -24,6 +25,15 @@ export const Header = () => {
       link: "/profile",
     },
   ];
+
+  // fetch "isLoggedIn" state from Redux store using useSelector()
+  const isLoggedIn = useSelector((state) => state.authState.isLoggedIn);
+  // console.log(isLoggedIn);
+
+  if (isLoggedIn === false) {
+    // At position 2, remove 2 objects -> Cart & Profile
+    links.splice(2, 2);
+  }
 
   const renderNavlink = links.map((item, index) => {
     return (
