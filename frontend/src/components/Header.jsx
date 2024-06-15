@@ -37,11 +37,22 @@ export const Header = () => {
 
   const renderNavlink = links.map((item, index) => {
     return (
-      <li
-        key={index}
-        className="hover:text-blue-500 transition-all duration-500"
-      >
-        <Link to={item.link}>{item.title}</Link>
+      <li key={index}>
+        {item.title === "Profile" ? (
+          <Link
+            to={item.link}
+            className="border border-blue-500 hover:bg-slate-200 hover:text-zinc-900 transition-all duration-500 px-4 py-1 rounded-md"
+          >
+            {item.title}
+          </Link>
+        ) : (
+          <Link
+            to={item.link}
+            className="hover:text-blue-500 transition-all duration-500"
+          >
+            {item.title}
+          </Link>
+        )}
       </li>
     );
   });
@@ -64,21 +75,28 @@ export const Header = () => {
           {/* Nav Menu */}
           <ul className="text-white flex gap-4">{renderNavlink}</ul>
 
-          {/* Login Button */}
-          <Link
-            to="/login"
-            className="border border-blue-500 hover:bg-slate-200 hover:text-zinc-900 transition-all duration-500 px-4 py-1 rounded-md"
-          >
-            Login
-          </Link>
+          {/* if user not login, then only show "login and signup" button */}
+          <div className="display-login-signup">
+            {isLoggedIn === false && (
+              <div className="login-signup space-x-4">
+                {/* Login Button */}
+                <Link
+                  to="/login"
+                  className="border border-blue-500 hover:bg-slate-200 hover:text-zinc-900 transition-all duration-500 px-4 py-1 rounded-md"
+                >
+                  Login
+                </Link>
 
-          {/* Signup Button */}
-          <Link
-            to="/sign-up"
-            className="bg-blue-500 hover:bg-slate-200 hover:text-zinc-900 transition-all duration-500 px-4 py-1 rounded-md"
-          >
-            SignUp
-          </Link>
+                {/* Signup Button */}
+                <Link
+                  to="/sign-up"
+                  className="bg-blue-500 hover:bg-slate-200 hover:text-zinc-900 transition-all duration-500 px-4 py-1 rounded-md"
+                >
+                  SignUp
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Responsive - Mobile View Nav Button */}
@@ -99,23 +117,30 @@ export const Header = () => {
           {renderNavlink}
         </ul>
 
-        {/* Login Button */}
-        <Link
-          to="/login"
-          className="mt-20 border border-blue-500 hover:bg-slate-200 text-xl text-white hover:text-zinc-900 transition-all duration-500 px-8 py-1 rounded-md"
-          onClick={hideMobileNav}
-        >
-          Login
-        </Link>
+        {/* if user not login, then only show "login and signup" button */}
+        <div className="display-login-signup">
+          {isLoggedIn === false && (
+            <div className="login-signup flex flex-col">
+              {/* Login Button */}
+              <Link
+                to="/login"
+                className="mt-20 border border-blue-500 hover:bg-slate-200 text-xl text-white hover:text-zinc-900 transition-all duration-500 px-8 py-1 rounded-md"
+                onClick={hideMobileNav}
+              >
+                Login
+              </Link>
 
-        {/* Signup Button */}
-        <Link
-          to="/sign-up"
-          className="mt-4 bg-blue-500 hover:bg-slate-200 text-xl text-white hover:text-zinc-900 transition-all duration-500 px-7 py-1 rounded-md"
-          onClick={hideMobileNav}
-        >
-          SignUp
-        </Link>
+              {/* Signup Button */}
+              <Link
+                to="/sign-up"
+                className="mt-4 bg-blue-500 hover:bg-slate-200 text-xl text-white hover:text-zinc-900 transition-all duration-500 px-7 py-1 rounded-md"
+                onClick={hideMobileNav}
+              >
+                SignUp
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

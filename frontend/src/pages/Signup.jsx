@@ -53,7 +53,7 @@ export const Signup = () => {
       // once user is registered, navigate to login page
       navigate("/login");
     } catch (error) {
-      console.error("Error while submitting signUp Data : ", error);
+      // console.error("Error while submitting signUp Data : ", error);
       alert(error.response.data.message);
     }
   };

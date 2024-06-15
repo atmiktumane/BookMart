@@ -16,13 +16,12 @@ const authSlice = createSlice({
     },
 
     changeRole(state, action) {
-      const { role } = action.payload;
-      state.role = role;
+      state.role = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, changeRole } = authSlice.actions;
+export const authActions = authSlice.actions;
 
 export default authSlice.reducer;

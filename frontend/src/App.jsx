@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Footer, Header, ViewBookDetails } from "./components";
 import { AllBooks, Cart, Home, Login, Profile, Signup } from "./pages";
+import { useDispatch } from "react-redux";
+import { authActions } from "./store/authSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // if {id, role, token} is already present in localStorage, that means, user is already logged in
+    if (
+      localStorage.getItem("id") &&
+      localStorage.getItem("role") &&
+      localStorage.getItem("token")
+    ) {
+      // user is already logged in, then Update Redux State
+      dispatch(authActions.login());
+      dispatch(
+        authActions.changeRole(JSON.parse(localStorage.getItem("role")))
+      );
+    }
+  }, []);
   return (
     <>
       <Header />
