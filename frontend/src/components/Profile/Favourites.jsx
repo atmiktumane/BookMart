@@ -29,11 +29,11 @@ export const Favourites = () => {
     };
 
     getAllFavouriteBooks();
-  }, []);
+  }, [FavouriteBooks]);
 
   // render All Favourite Books
   const renderAllFavouriteBooks = FavouriteBooks.map((item, index) => {
-    return <BookCard key={index} data={item} />;
+    return <BookCard key={index} data={item} isBookFavourite={true} />;
   });
 
   return (
