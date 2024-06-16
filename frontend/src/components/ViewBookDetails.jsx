@@ -4,6 +4,11 @@ import { useParams } from "react-router-dom";
 import { GrLanguage } from "react-icons/gr";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { Loader } from "./Loader";
+import { FaHeart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 export const ViewBookDetails = () => {
   const { id } = useParams();
@@ -13,6 +18,10 @@ export const ViewBookDetails = () => {
 
   // loading state to manage Loading status
   const [loading, setLoading] = useState(true);
+
+  // get isLoggedIn and User Role from Redux state to show different icons
+  const isLoggedIn = useSelector((state) => state.authState.isLoggedIn);
+  const role = useSelector((state) => state.authState.role);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -41,14 +50,44 @@ export const ViewBookDetails = () => {
         <div className="book-details flex flex-col md:flex-row gap-8">
           {/* Column 1 */}
           <div className="w-full md:w-3/6 h-[50vh] md:h-[88vh] bg-zinc-800 p-4 flex justify-center items-center rounded">
-            <img
-              src={bookDetails.url}
-              alt="/"
-              className="h-[40vh] md:h-[70vh] rounded"
-            />
+            <div className="flex md:flex-col xl:flex-row justify-around gap-9">
+              {/* Book Image */}
+              <img
+                src={bookDetails.url}
+                alt="/"
+                className="h-[40vh] md:h-[70vh] rounded"
+              />
+
+              {/* if user is logged in then only proceed to show icons, else don't show anything */}
+              {/* if (role = "admin") show delete and edit icon, else for user role show favourites and cart icon */}
+
+              {isLoggedIn === true && role === "admin" && (
+                <div className="h-[100%] flex flex-col md:flex-row xl:flex-col md:justify-around space-y-4 ">
+                  <button className="mt-4">
+                    <MdDelete className="text-4xl text-red-400 hover:text-red-600" />
+                  </button>
+
+                  <button className="">
+                    <FaEdit className="text-4xl text-blue-200 hover:text-blue-700 ml-2 mb-2" />
+                  </button>
+                </div>
+              )}
+
+              {isLoggedIn === true && role === "user" && (
+                <div className="h-[100%] flex flex-col md:flex-row xl:flex-col md:justify-around space-y-4 ">
+                  <button className="mt-4">
+                    <FaHeart className="text-4xl text-red-200 hover:text-red-700" />
+                  </button>
+
+                  <button className="">
+                    <FaShoppingCart className="text-4xl text-blue-200 hover:text-blue-700" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Column 2 */}
+          {/* Column 2 - Book Description (Details) */}
           <div className="w-full md:w-3/6 p-4">
             <h4 className="text-2xl text-zinc-300 font-semibold">
               {bookDetails.title}
