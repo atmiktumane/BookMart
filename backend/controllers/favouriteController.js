@@ -32,7 +32,9 @@ const addBookToFavourites = asyncHandler(async (req, res) => {
   // check if the book is already present in user's favourites or not
   const isBookInFavourites = userData.favourites.includes(bookid);
   if (isBookInFavourites) {
-    return res.status(200).json({ message: "Book is already in favourites" });
+    // status code 409 : Conflict
+    res.status(409);
+    throw new Error("Book is already in favourites");
   }
 
   const addBookInFavourites = await User.findByIdAndUpdate(

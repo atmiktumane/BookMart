@@ -11,6 +11,7 @@ import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 
 export const ViewBookDetails = () => {
+  // Book id
   const { id } = useParams();
   //   console.log(id);
 
@@ -23,6 +24,47 @@ export const ViewBookDetails = () => {
   const isLoggedIn = useSelector((state) => state.authState.isLoggedIn);
   const role = useSelector((state) => state.authState.role);
 
+  const headers = {
+    authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+    id: `${JSON.parse(localStorage.getItem("id"))}`,
+    bookid: id,
+  };
+
+  // Add To Favourites
+  const handleUserFavourite = async () => {
+    try {
+      const response = await axios.put(
+        "/api/v1/add-book-to-favourites",
+        {},
+        { headers }
+      );
+
+      // console.log(response.data.message);
+      alert(response.data.message);
+    } catch (error) {
+      // console.error("Error while adding book to favourites : ", error);
+      alert(error.response.data.message);
+    }
+  };
+
+  // Add Book to Cart
+  const handleUserCart = async () => {
+    try {
+      const response = await axios.put(
+        "/api/v1/add-book-in-cart",
+        {},
+        { headers }
+      );
+
+      // console.log(response);
+      alert(response.data.message);
+    } catch (error) {
+      // console.error("Error while adding book to cart : ", error);
+      alert(error.response.data.message);
+    }
+  };
+
+  // Get Book Details of particular book using 'book id'
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -75,11 +117,11 @@ export const ViewBookDetails = () => {
 
               {isLoggedIn === true && role === "user" && (
                 <div className="h-[100%] flex flex-col md:flex-row xl:flex-col md:justify-around space-y-4 ">
-                  <button className="mt-4">
+                  <button onClick={handleUserFavourite} className="mt-4">
                     <FaHeart className="text-4xl text-red-200 hover:text-red-700" />
                   </button>
 
-                  <button className="">
+                  <button onClick={handleUserCart}>
                     <FaShoppingCart className="text-4xl text-blue-200 hover:text-blue-700" />
                   </button>
                 </div>

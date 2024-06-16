@@ -22,7 +22,7 @@ export const Profile = () => {
       const getUserInfo = async () => {
         const response = await axios.get("/api/v1/current-user", { headers });
 
-        console.log(response.data);
+        // console.log(response.data);
 
         setProfile(response.data);
       };
@@ -34,11 +34,11 @@ export const Profile = () => {
   }, []);
 
   return (
-    <section className="bg-zinc-900 h-screen ">
+    <section className="bg-zinc-900 min-h-screen ">
       {/* In Profile Page, if "Profile UserData" is present then show content, else show loader */}
 
       {Profile ? (
-        <div className="display-content h-[100%] flex flex-col md:flex-row px-4 md:px-12 py-8 text-white gap-4">
+        <div className="display-content min-h-screen flex flex-col md:flex-row px-4 md:px-12 py-8 text-white gap-4">
           {/* Sidebar */}
           <div className="w-full md:w-1/6">
             <Sidebar data={Profile} />

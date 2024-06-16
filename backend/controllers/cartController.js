@@ -34,7 +34,7 @@ const addBookInCart = asyncHandler(async (req, res) => {
 
   // check if Book is already present in User's Cart
   if (isBookInCart) {
-    res.status(200);
+    res.status(409);
     throw new Error("Book is already present in Cart");
   }
 
