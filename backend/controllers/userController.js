@@ -113,7 +113,7 @@ const loginUser = asyncHandler(async (req, res) => {
 //route GET "api/v1/current-user"
 //access Private
 const currentUser = asyncHandler(async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   const { id } = req.headers;
   const data = await User.findById(id).select("-password");
   return res.status(200).json(data);
