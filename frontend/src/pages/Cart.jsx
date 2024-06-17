@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { CartCard, Loader } from "../components";
 import { FaIndianRupeeSign } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
   // Cart state to store all cart books , which are getting from database using backend API
@@ -15,6 +16,9 @@ export const Cart = () => {
 
   // useRef to store the previous value of cartBooks
   const prevCartBooksRef = useRef();
+
+  // Navigation
+  const navigate = useNavigate();
 
   // useEffect to update the ref with the current value of cartBooks after each render
   useEffect(() => {
@@ -71,6 +75,24 @@ export const Cart = () => {
     return <CartCard key={index} data={item} headers={headers} />;
   });
 
+  // Place order -> take all items from cart and put it in orders
+  const handlePlaceOrder = async () => {
+    try {
+      const response = await axios.post(
+        "/api/v1/place-order",
+        { order: CartBooks },
+        { headers }
+      );
+
+      alert(response.data.message);
+
+      // after successfully placing order and empty cart, navigate to orderHistory section in Profile page
+      navigate("/profile/orderHistory");
+    } catch (error) {
+      console.error("Error while placing order for AllCartBooks : ", error);
+    }
+  };
+
   return (
     <section className="min-h-screen bg-zinc-900 px-4 md:px-12 py-8">
       {/* if (LoadingState = true) show Loader, else if CartBooks array is not empty then show books data, else print Cart is Empty  */}
@@ -102,7 +124,10 @@ export const Cart = () => {
                 </span>
               </div>
 
-              <button className="bg-zinc-300 hover:bg-zinc-400 w-full rounded py-2">
+              <button
+                onClick={handlePlaceOrder}
+                className="bg-zinc-300 hover:bg-zinc-400 w-full rounded py-2"
+              >
                 Place your order
               </button>
             </div>
