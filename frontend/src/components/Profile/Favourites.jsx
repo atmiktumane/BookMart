@@ -29,7 +29,9 @@ export const Favourites = () => {
     };
 
     getAllFavouriteBooks();
-  }, [FavouriteBooks]);
+  }, []);
+
+  console.log(FavouriteBooks);
 
   // render All Favourite Books
   const renderAllFavouriteBooks = FavouriteBooks.map((item, index) => {

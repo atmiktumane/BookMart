@@ -9,3 +9,4 @@ export { Sidebar } from "./Profile/Sidebar";
 export { Favourites } from "./Profile/Favourites";
 export { UserOrderHistory } from "./Profile/UserOrderHistory";
 export { Settings } from "./Profile/Settings";
+export { CartCard } from "./CartCard";

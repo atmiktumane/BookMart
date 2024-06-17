@@ -55,7 +55,7 @@ export const BookCard = ({ data, isBookFavourite }) => {
       {isBookFavourite === true && (
         <button
           onClick={handleRemoveFavouriteBook}
-          className="mt-3 bg-red-500 py-1 rounded"
+          className="mt-3 bg-red-500 hover:bg-red-700 py-1 rounded"
         >
           Remove from Favourites
         </button>

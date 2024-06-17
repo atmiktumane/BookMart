@@ -53,7 +53,7 @@ const addBookToFavourites = asyncHandler(async (req, res) => {
 });
 
 //@desc Remove book from favourites
-//route PUT "api/v1/remove-book-from-favourites"
+//route PUT "/api/v1/remove-book-from-favourites"
 //access Private
 const removeBookFromFavourites = asyncHandler(async (req, res) => {
   // get authorized user from Token ->  getting from middleware validateTokenHandler
