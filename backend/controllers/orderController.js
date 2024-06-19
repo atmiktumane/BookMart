@@ -44,6 +44,7 @@ const getOrderHistory = asyncHandler(async (req, res) => {
     populate: { path: "book" },
   });
 
+  // reverse() -> because recently made order should appear at top
   const ordersData = userData.orders.reverse();
 
   res

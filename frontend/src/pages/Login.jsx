@@ -39,7 +39,7 @@ export const Login = () => {
         username,
         password,
       });
-      console.log(response.data);
+      // console.log(response.data);
 
       // Login successfull, Update Redux State
       dispatch(authActions.login());

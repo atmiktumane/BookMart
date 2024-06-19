@@ -50,7 +50,7 @@ export const Profile = () => {
           </div>
         </div>
       ) : (
-        <div className="h-[100%] flex justify-center items-center">
+        <div className="h-[70vh] flex justify-center items-center">
           <Loader />{" "}
         </div>
       )}
