@@ -21,26 +21,26 @@ export const Sidebar = ({ data }) => {
       <div className="flex flex-col items-center space-y-4">
         <Link
           to="/profile"
-          className="font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
         >
           Favourites
         </Link>
         <Link
           to="/profile/orderHistory"
-          className="font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
         >
           Order History
         </Link>
         <Link
           to="/profile/settings"
-          className="font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
         >
           Settings
         </Link>
       </div>
 
       {/* Row 3 - Logout Button */}
-      <button className="bg-zinc-900 px-1 py-2 rounded flex items-center justify-center font-medium space-x-4 hover:bg-zinc-400 hover:text-zinc-900">
+      <button className="bg-zinc-900 mt-4 md:mt-0 px-1 py-2 rounded flex items-center justify-center font-medium space-x-4 hover:bg-zinc-400 hover:text-zinc-900">
         <span>Log Out</span> <MdOutlineLogout />
       </button>
     </div>

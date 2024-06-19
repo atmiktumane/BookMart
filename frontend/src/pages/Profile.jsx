@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Loader, Sidebar } from "../components";
+import { Loader, MobileNavSidebar, Sidebar } from "../components";
 import { Outlet } from "react-router-dom";
 
 export const Profile = () => {
@@ -42,6 +42,11 @@ export const Profile = () => {
           {/* Sidebar */}
           <div className="w-full md:w-1/6">
             <Sidebar data={Profile} />
+          </div>
+
+          {/* Mobile Nav Sidebar menus */}
+          <div className="block md:hidden">
+            <MobileNavSidebar />
           </div>
 
           {/* Outlet */}
