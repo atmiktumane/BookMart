@@ -35,7 +35,7 @@ export const UserOrderHistory = () => {
     return (
       <li
         key={index}
-        className="flex p-0.5 md:p-4 gap-2 hover:bg-zinc-900 text-xs md:text-base my-3 md:my-0"
+        className="flex p-0.5 md:p-4 gap-2 hover:bg-zinc-900 text-xs md:text-base my-3 md:my-0 transition hover:-translate-y-1"
       >
         {/* Serial Number */}
         <span className="w-[5%] text-right md:text-justify">{index + 1}.</span>
