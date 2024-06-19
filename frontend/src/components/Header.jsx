@@ -24,21 +24,40 @@ export const Header = () => {
       title: "Profile",
       link: "/profile",
     },
+    {
+      title: "Admin Profile",
+      link: "/profile",
+    },
   ];
 
   // fetch "isLoggedIn" state from Redux store using useSelector()
   const isLoggedIn = useSelector((state) => state.authState.isLoggedIn);
   // console.log(isLoggedIn);
 
+  // fetch "role" state from Redux store
+  const role = useSelector((state) => state.authState.role);
+
   if (isLoggedIn === false) {
-    // At position 2, remove 2 objects -> Cart & Profile
-    links.splice(2, 2);
+    // At position 2, remove 3 objects -> Cart, Profile & Admin Profile
+    links.splice(2, 3);
+  }
+
+  // if role = admin, show "Admin Profile" in navbar header
+  if (isLoggedIn === true && role === "admin") {
+    // remove "title: Profile"
+    links.splice(3, 1);
+  }
+
+  // if role = user, show "Profile" in navbar
+  if (isLoggedIn === true && role === "user") {
+    // remove "title: Admin Profile"
+    links.splice(4, 1);
   }
 
   const renderNavlink = links.map((item, index) => {
     return (
       <li key={index}>
-        {item.title === "Profile" ? (
+        {item.title === "Profile" || item.title === "Admin Profile" ? (
           <Link
             to={item.link}
             className="border border-blue-500 hover:bg-slate-200 hover:text-zinc-900 transition-all duration-500 px-4 py-1 rounded-md"

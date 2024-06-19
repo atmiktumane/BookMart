@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import {
+  AddBook,
+  AllOrders,
   Favourites,
   Footer,
   Header,
@@ -9,11 +11,14 @@ import {
   ViewBookDetails,
 } from "./components";
 import { AllBooks, Cart, Home, Login, Profile, Signup } from "./pages";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authSlice";
 
 const App = () => {
   const dispatch = useDispatch();
+
+  // get "role" state from redux store
+  const role = useSelector((state) => state.authState.role);
 
   useEffect(() => {
     // if {id, role, token} is already present in localStorage, that means, user is already logged in
@@ -39,7 +44,15 @@ const App = () => {
 
         {/* Profile : Nested Routing */}
         <Route path="/profile" element={<Profile />}>
-          <Route index element={<Favourites />} />
+          {role === "user" ? (
+            <Route index element={<Favourites />} />
+          ) : (
+            <Route index element={<AllOrders />} />
+          )}
+
+          {/* for role = "admin", route="/profile/add-book" */}
+          <Route path="/profile/add-book" element={<AddBook />} />
+
           <Route path="/profile/orderHistory" element={<UserOrderHistory />} />
           <Route path="/profile/settings" element={<Settings />} />
         </Route>

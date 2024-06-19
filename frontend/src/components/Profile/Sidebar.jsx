@@ -1,13 +1,18 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authSlice";
 
 export const Sidebar = ({ data }) => {
+  // useDispatch() -> To update redux state
   const dispatch = useDispatch();
 
+  // Navigation
   const history = useNavigate();
+
+  // get "role" state from redux store
+  const role = useSelector((state) => state.authState.role);
 
   // logout the user -> clear localStorage & update Redux states
   const submitLogout = () => {
@@ -38,26 +43,45 @@ export const Sidebar = ({ data }) => {
       </div>
 
       {/* Row 2 - for mobile view "till md" responsive this row (having 3 buttons) will be hidden */}
-      <div className="flex flex-col items-center space-y-4">
-        <Link
-          to="/profile"
-          className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
-        >
-          Favourites
-        </Link>
-        <Link
-          to="/profile/orderHistory"
-          className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
-        >
-          Order History
-        </Link>
-        <Link
-          to="/profile/settings"
-          className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
-        >
-          Settings
-        </Link>
-      </div>
+      {role === "user" && (
+        <div className="flex flex-col items-center space-y-4">
+          <Link
+            to="/profile"
+            className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          >
+            Favourites
+          </Link>
+          <Link
+            to="/profile/orderHistory"
+            className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          >
+            Order History
+          </Link>
+          <Link
+            to="/profile/settings"
+            className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          >
+            Settings
+          </Link>
+        </div>
+      )}
+
+      {role === "admin" && (
+        <div className="flex flex-col items-center space-y-4">
+          <Link
+            to="/profile"
+            className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          >
+            All Orders
+          </Link>
+          <Link
+            to="/profile/add-book"
+            className="hidden md:block font-medium hover:bg-zinc-900 w-full text-center py-2 transition hover:-translate-y-1 rounded"
+          >
+            Add Book
+          </Link>
+        </div>
+      )}
 
       {/* Row 3 - Logout Button */}
       <button

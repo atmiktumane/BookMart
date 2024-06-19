@@ -11,3 +11,5 @@ export { UserOrderHistory } from "./Profile/UserOrderHistory";
 export { Settings } from "./Profile/Settings";
 export { CartCard } from "./CartCard";
 export { MobileNavSidebar } from "./Profile/MobileNavSidebar";
+export { AllOrders } from "./Profile/AllOrders";
+export { AddBook } from "./Profile/AddBook";
