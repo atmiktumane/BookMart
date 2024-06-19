@@ -44,7 +44,7 @@ export const Profile = () => {
             <Sidebar data={Profile} />
           </div>
 
-          {/* Mobile Nav Sidebar menus */}
+          {/* Mobile Nav Sidebar menus - Only for mobile view */}
           <div className="block md:hidden">
             <MobileNavSidebar />
           </div>

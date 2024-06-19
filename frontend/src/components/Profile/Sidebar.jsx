@@ -17,7 +17,7 @@ export const Sidebar = ({ data }) => {
         <div className="w-full h-[1px] bg-zinc-500 block"></div>
       </div>
 
-      {/* Row 2 */}
+      {/* Row 2 - for mobile view "till md" responsive this row (having 3 buttons) will be hidden */}
       <div className="flex flex-col items-center space-y-4">
         <Link
           to="/profile"
