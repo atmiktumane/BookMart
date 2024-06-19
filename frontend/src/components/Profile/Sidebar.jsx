@@ -1,8 +1,28 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/authSlice";
 
 export const Sidebar = ({ data }) => {
+  const dispatch = useDispatch();
+
+  const history = useNavigate();
+
+  // logout the user -> clear localStorage & update Redux states
+  const submitLogout = () => {
+    // update redux states
+    dispatch(authActions.logout());
+    dispatch(authActions.changeRole("user"));
+
+    // clearing localStorage
+    localStorage.clear("id");
+    localStorage.clear("token");
+    localStorage.clear("role");
+
+    // logout successfull, navigate to Home page
+    history("/");
+  };
   return (
     <div className="bg-zinc-800 h-[100%] p-4 flex flex-col justify-between rounded">
       {/* Row 1 */}
@@ -40,7 +60,10 @@ export const Sidebar = ({ data }) => {
       </div>
 
       {/* Row 3 - Logout Button */}
-      <button className="bg-zinc-900 mt-4 md:mt-0 px-1 py-2 rounded flex items-center justify-center font-medium space-x-4 hover:bg-zinc-400 hover:text-zinc-900">
+      <button
+        onClick={submitLogout}
+        className="bg-zinc-900 mt-4 md:mt-0 px-1 py-2 rounded flex items-center justify-center font-medium space-x-4 hover:bg-zinc-400 hover:text-zinc-900"
+      >
         <span>Log Out</span> <MdOutlineLogout />
       </button>
     </div>

@@ -34,7 +34,7 @@ export const Settings = () => {
   const submitUpdatedAddress = async () => {
     // if address input field is empty and user by mistake clicks on update button then don't proceed
     if (Address === "") {
-      alert("Please fill the updated address");
+      alert("Please fill the updated address field");
       return;
     }
 
