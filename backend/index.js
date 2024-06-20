@@ -39,7 +39,9 @@ app.use(errorHandler);
 // Define the port from environment variables or use default
 const port = process.env.PORT || 5000;
 
+const server = http.createServer(app);
+
 // Start the Server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
