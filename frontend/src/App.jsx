@@ -7,6 +7,7 @@ import {
   Footer,
   Header,
   Settings,
+  UpdateBook,
   UserOrderHistory,
   ViewBookDetails,
 } from "./components";
@@ -59,7 +60,10 @@ const App = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<Signup />} />
+
+        {/* id -> book id */}
         <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
+        <Route path="/update-book/:id" element={<UpdateBook />} />
       </Routes>
 
       <Footer />

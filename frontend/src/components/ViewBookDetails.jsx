@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { GrLanguage } from "react-icons/gr";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { Loader } from "./Loader";
@@ -19,6 +19,9 @@ export const ViewBookDetails = () => {
 
   // loading state to manage Loading status
   const [loading, setLoading] = useState(true);
+
+  // Navigation
+  const navigate = useNavigate();
 
   // get isLoggedIn and User Role from Redux state to show different icons
   const isLoggedIn = useSelector((state) => state.authState.isLoggedIn);
@@ -82,6 +85,20 @@ export const ViewBookDetails = () => {
     fetchBookDetails();
   }, []);
 
+  // Delete Book from Database -> Admin Role
+  const handleDeleteBook = async () => {
+    try {
+      const response = await axios.delete("/api/v1/delete-book", { headers });
+
+      alert(response.data.message);
+
+      // after deleting book successfully , navigate to "All Books" page
+      navigate("/all-books");
+    } catch (error) {
+      console.error("Error while deleting Book from Database : ", error);
+    }
+  };
+
   return (
     <section className="bg-zinc-900 px-4 md:px-12 py-8 ">
       {loading ? (
@@ -105,13 +122,13 @@ export const ViewBookDetails = () => {
 
               {isLoggedIn === true && role === "admin" && (
                 <div className="h-[100%] flex flex-col md:flex-row xl:flex-col md:justify-around space-y-4 ">
-                  <button className="mt-4">
+                  <button onClick={handleDeleteBook} className="mt-4">
                     <MdDelete className="text-4xl text-red-400 hover:text-red-600" />
                   </button>
 
-                  <button className="">
+                  <Link to={`/update-book/${id}`} className="">
                     <FaEdit className="text-4xl text-blue-200 hover:text-blue-700 ml-2 mb-2" />
-                  </button>
+                  </Link>
                 </div>
               )}
 

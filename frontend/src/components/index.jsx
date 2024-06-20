@@ -13,3 +13,4 @@ export { CartCard } from "./CartCard";
 export { MobileNavSidebar } from "./Profile/MobileNavSidebar";
 export { AllOrders } from "./Profile/AllOrders";
 export { AddBook } from "./Profile/AddBook";
+export { UpdateBook } from "./UpdateBook";
