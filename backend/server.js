@@ -12,7 +12,13 @@ const errorHandler = require("./middleware/errorHandler");
 // Initialize the Express application
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [""],
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // Middleware to parse JSON bodies
 app.use(express.json());
