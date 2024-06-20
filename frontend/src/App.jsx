@@ -14,6 +14,7 @@ import {
 import { AllBooks, Cart, Home, Login, Profile, Signup } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authSlice";
+import axios from "axios";
 
 const App = () => {
   const dispatch = useDispatch();
