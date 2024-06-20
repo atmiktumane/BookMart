@@ -27,6 +27,10 @@ app.use(express.json());
 connectDB();
 
 // Define the routes
+app.get("/", function (req, res) {
+  res.send("Hello, Server is running");
+});
+
 app.use("/api/v1", require("./routes/userRoute"));
 app.use("/api/v1", require("./routes/bookRoute"));
 app.use("/api/v1", require("./routes/favouriteRoute"));
