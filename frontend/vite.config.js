@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   server: {
     proxy: {
-      "/api/v1": "https://bookmart-backend.vercel.app",
+      "/api/v1": "http://localhost:4004",
     },
   },
   plugins: [react()],

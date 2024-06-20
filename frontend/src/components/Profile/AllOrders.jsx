@@ -3,10 +3,17 @@ import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { IoOpenOutline } from "react-icons/io5";
 
 export const AllOrders = () => {
   // state -> to store "All Orders" getting from backend database
   const [AllOrders, setAllOrders] = useState([]);
+
+  // Options state -> to display "select option" in order status
+  const [Options, setOptions] = useState(-1);
+
+  const [Status, setStatus] = useState("Order Placed");
 
   const headers = {
     authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
@@ -25,6 +32,27 @@ export const AllOrders = () => {
 
     getAllOrders();
   }, []);
+
+  // console.log(AllOrders);
+  // Cast to string failed for value "{ status: 'Canceled' }" (type Object) at path "status"
+
+  // update Order Status to backend database
+  const submitChanges = async (index) => {
+    const id = AllOrders[index]._id;
+
+    // console.log(Status);
+
+    try {
+      const response = await axios.put(
+        `api/v1/update-order-status/${id}`,
+        { status: Status },
+        { headers }
+      );
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Error while submitting order status : ", error);
+    }
+  };
 
   // render All Orders
   const renderAllOrders = AllOrders.map((item, index) => {
@@ -55,18 +83,51 @@ export const AllOrders = () => {
 
         {/* Order Status */}
         <div className="w-[15%] text-xs md:text-base">
-          {item.status === "Order Placed" ? (
-            <p className="text-green-400">{item.status}</p>
-          ) : item.status === "Canceled" ? (
-            <p className="text-red-400">{item.status}</p>
-          ) : (
-            <p className="text-yellow-400">{item.status}</p>
+          {/* order button */}
+          <button onClick={() => setOptions(index)}>
+            {item.status === "Order Placed" ? (
+              <p className="text-green-400">{item.status}</p>
+            ) : item.status === "Canceled" ? (
+              <p className="text-red-400">{item.status}</p>
+            ) : (
+              <p className="text-yellow-400">{item.status}</p>
+            )}
+          </button>
+
+          {/* show "select options" when clicked on above order button */}
+          {Options === index && (
+            <div className="flex gap-1">
+              {/* Select Option */}
+              <select
+                name="status"
+                id=""
+                value={Status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-[100%] mt-3 bg-gray-800"
+              >
+                <option value="Order Placed">Order Placed</option>
+                <option value="Out for Delivery">Out for Delivery</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Canceled">Canceled</option>
+              </select>
+
+              {/* Check button -> when clicked, update order status & hide "select options" div */}
+              <button
+                onClick={() => {
+                  setOptions(-1);
+                  submitChanges(index);
+                }}
+                className="mt-2"
+              >
+                <IoMdCheckmarkCircleOutline className="text-md md:text-xl text-emerald-500 hover:text-yellow-500" />{" "}
+              </button>
+            </div>
           )}
         </div>
-        {/* Payment Mode */}
-        {/* <span className="w-none md:w-[10%] hidden md:block text-zinc-500 font-medium">
-          COD
-        </span> */}
+        {/* click this button & admin will see User Info */}
+        <button className="w-none md:w-[10%] hidden md:grid justify-items-end md:mr-1 lg:mr-5 text-zinc-300 hover:text-purple-500">
+          <IoOpenOutline className="text-xl font-semibold" />
+        </button>
       </li>
     );
   });

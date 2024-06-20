@@ -68,12 +68,10 @@ const getAllOrders = asyncHandler(async (req, res) => {
     .populate({ path: "user" })
     .sort({ createdAt: -1 });
 
-  res
-    .status(200)
-    .json({
-      message: "Successfully got All User's Order",
-      allUserOrders: orderData,
-    });
+  res.status(200).json({
+    message: "Successfully got All User's Order",
+    allUserOrders: orderData,
+  });
 });
 
 //@desc Update Order Status
@@ -89,8 +87,10 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   // id -> order_id
   const { id } = req.params;
 
+  const { status } = req.body;
+
   // Update order status
-  await Order.findByIdAndUpdate(id, { status: req.body.status });
+  await Order.findByIdAndUpdate(id, { status: status });
 
   res.status(200).json({ message: "Status updated successfully" });
 });
