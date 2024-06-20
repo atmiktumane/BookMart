@@ -21,6 +21,9 @@ const App = () => {
   // get "role" state from redux store
   const role = useSelector((state) => state.authState.role);
 
+  // to not get error while deploying to vercel
+  axios.defaults.withCredentials = true;
+
   useEffect(() => {
     // if {id, role, token} is already present in localStorage, that means, user is already logged in
     if (
