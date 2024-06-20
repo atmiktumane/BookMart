@@ -2,11 +2,11 @@
   "name": "backend-api",
   "version": "1.0.0",
   "description": "Backend server for BookMart application built with MERN stack (MongoDB, Express, ReactJs, Node.js). This Server handles user authentication, book management, order processing and other API functionalities necessary.",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Atmik Tumane",
   "license": "MIT",
