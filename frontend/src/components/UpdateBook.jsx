@@ -48,6 +48,19 @@ export const UpdateBook = () => {
   const submitDataToUpdateBook = async (e) => {
     e.preventDefault();
 
+    // simple validation
+    if (
+      BookData.url === "" ||
+      BookData.title === "" ||
+      BookData.author === "" ||
+      BookData.price === "" ||
+      BookData.desc === "" ||
+      BookData.language === ""
+    ) {
+      alert("Please fill all the fields!");
+      return;
+    }
+
     try {
       const response = await axios.put("/api/v1/update-book", BookData, {
         headers,
@@ -55,8 +68,8 @@ export const UpdateBook = () => {
 
       alert(response.data.message);
 
-      //   updated book sucessfully, navigate to "All Books" page
-      navigate("/all-books");
+      //   updated book sucessfully, navigate to "book details"
+      navigate(`/view-book-details/${id}`);
     } catch (error) {
       console.error("Error while submitting data to update book : ", error);
     }

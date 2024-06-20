@@ -70,7 +70,10 @@ const getAllOrders = asyncHandler(async (req, res) => {
 
   res
     .status(200)
-    .json({ message: "All User's Order", allUserOrders: orderData });
+    .json({
+      message: "Successfully got All User's Order",
+      allUserOrders: orderData,
+    });
 });
 
 //@desc Update Order Status
