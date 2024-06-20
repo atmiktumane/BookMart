@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [""],
+    origin: ["https://bookmart-stores.vercel.app"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
