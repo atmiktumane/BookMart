@@ -44,8 +44,8 @@ export const Header = () => {
 
   // if role = admin, show "Admin Profile" in navbar header
   if (isLoggedIn === true && role === "admin") {
-    // remove "title: Profile"
-    links.splice(3, 1);
+    // remove "Cart" & "title: Profile"
+    links.splice(2, 2);
   }
 
   // if role = user, show "Profile" in navbar
