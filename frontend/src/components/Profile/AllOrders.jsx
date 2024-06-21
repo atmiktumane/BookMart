@@ -5,6 +5,7 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { IoOpenOutline } from "react-icons/io5";
+import { UserModal } from "./UserModal";
 
 export const AllOrders = () => {
   // state -> to store "All Orders" getting from backend database
@@ -14,6 +15,12 @@ export const AllOrders = () => {
   const [Options, setOptions] = useState(-1);
 
   const [Status, setStatus] = useState("Order Placed");
+
+  // show modal state -> to handle modal, when to show or hide
+  const [ShowModal, setShowModal] = useState(false);
+
+  // state -> to store particular User data & pass it to Modal
+  const [userData, setUserData] = useState({});
 
   const headers = {
     authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
@@ -70,17 +77,14 @@ export const AllOrders = () => {
         >
           {item.book.title}
         </Link>
-
         {/* Book Description */}
         <span className="w-[45%] text-xs md:text-base text-zinc-400">
           {item.book.desc.slice(0, 60)}...
         </span>
-
         {/* Book Price */}
         <p className="w-[10%] flex items-start text-xs md:text-base">
           <FaIndianRupeeSign className="my-0.5 md:my-1" /> {item.book.price}
         </p>
-
         {/* Order Status */}
         <div className="w-[15%] text-xs md:text-base">
           {/* order button */}
@@ -125,9 +129,20 @@ export const AllOrders = () => {
           )}
         </div>
         {/* click this button & admin will see User Info */}
-        <button className="w-none md:w-[10%] hidden md:grid justify-items-end md:mr-1 lg:mr-5 text-zinc-300 hover:text-purple-500">
+        <button
+          onClick={() => {
+            setShowModal(true);
+            setUserData(item.user);
+          }}
+          className="w-none md:w-[10%] hidden md:grid justify-items-end md:mr-1 lg:mr-5 text-zinc-300 hover:text-purple-500"
+        >
           <IoOpenOutline className="text-xl font-semibold" />
         </button>
+
+        {/* Pop-up modal to see user info */}
+        {ShowModal && (
+          <UserModal userData={userData} onClose={() => setShowModal(false)} />
+        )}
       </li>
     );
   });
