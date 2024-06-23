@@ -22,26 +22,28 @@ export const AllOrders = () => {
   // state -> to store particular User data & pass it to Modal
   const [userData, setUserData] = useState({});
 
+  const [orderUpdated, setOrderUpdated] = useState(false); // State to track order status updates
+
   const headers = {
     authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
   };
 
-  // Get All Orders from Backend database
-  useEffect(() => {
-    const getAllOrders = async () => {
-      try {
-        const response = await axios.get("/api/v1/get-all-orders", { headers });
-        setAllOrders(response.data.allUserOrders);
-      } catch (error) {
-        console.error("Error while getting All Orders : ", error);
-      }
-    };
+  // Define the async function to fetch All Orders from backend database
+  const getAllOrders = async () => {
+    try {
+      const response = await axios.get("/api/v1/get-all-orders", { headers });
+      setAllOrders(response.data.allUserOrders);
+    } catch (error) {
+      console.error("Error while getting All Orders : ", error);
+    }
+  };
 
+  // // Get All Orders from backend database depending on the state "orderUpdated"
+  useEffect(() => {
     getAllOrders();
-  }, []);
+  }, [orderUpdated]);
 
   // console.log(AllOrders);
-  // Cast to string failed for value "{ status: 'Canceled' }" (type Object) at path "status"
 
   // update Order Status to backend database
   const submitChanges = async (index) => {
@@ -56,6 +58,8 @@ export const AllOrders = () => {
         { headers }
       );
       alert(response.data.message);
+
+      setOrderUpdated((prev) => !prev); // Toggle orderUpdated to trigger re-fetch
     } catch (error) {
       console.error("Error while submitting order status : ", error);
     }
@@ -70,6 +74,7 @@ export const AllOrders = () => {
       >
         {/* Serial Number */}
         <span className="w-[5%] text-right md:text-justify">{index + 1}.</span>
+
         {/* Book Title with Book details link */}
         <Link
           to={`/view-book-details/${item.book._id}`}
@@ -77,14 +82,17 @@ export const AllOrders = () => {
         >
           {item.book.title}
         </Link>
+
         {/* Book Description */}
         <span className="w-[45%] text-xs md:text-base text-zinc-400">
           {item.book.desc.slice(0, 60)}...
         </span>
+
         {/* Book Price */}
         <p className="w-[10%] flex items-start text-xs md:text-base">
           <FaIndianRupeeSign className="my-0.5 md:my-1" /> {item.book.price}
         </p>
+
         {/* Order Status */}
         <div className="w-[15%] text-xs md:text-base">
           {/* order button */}
@@ -128,6 +136,7 @@ export const AllOrders = () => {
             </div>
           )}
         </div>
+
         {/* click this button & admin will see User Info */}
         <button
           onClick={() => {
