@@ -61,6 +61,9 @@ export const ViewBookDetails = () => {
 
       // console.log(response);
       alert(response.data.message);
+
+      // successfully added book to cart, now navigate to Cart Page
+      navigate("/cart");
     } catch (error) {
       // console.error("Error while adding book to cart : ", error);
       alert(error.response.data.message);

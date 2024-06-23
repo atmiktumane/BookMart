@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CartCard, Loader } from "../components";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -14,19 +14,10 @@ export const Cart = () => {
   // TotalPrice state -> to calculate total price of all books present in cart
   const [TotalPrice, setTotalPrice] = useState(0);
 
-  // useRef to store the previous value of cartBooks
-  const prevCartBooksRef = useRef();
+  const [cartUpdated, setCartUpdated] = useState(false); // State to track cart updates
 
   // Navigation
   const navigate = useNavigate();
-
-  // useEffect to update the ref with the current value of cartBooks after each render
-  useEffect(() => {
-    prevCartBooksRef.current = CartBooks;
-  });
-
-  // Getting the previous value of cartBooks from the ref
-  const prevCartBooks = prevCartBooksRef.current;
 
   // headers : having authorization (Bearer Token) & user id to be passed to backend
   const headers = {
@@ -34,26 +25,25 @@ export const Cart = () => {
     id: JSON.parse(localStorage.getItem("id")),
   };
 
+  // Define the async function to fetch cart books from backend database
+  const getAllCartBooks = async () => {
+    try {
+      const response = await axios.get("/api/v1/get-user-cart", { headers });
+
+      setCartBooks(response.data.allCartBooks);
+    } catch (error) {
+      console.error("Error while fetching all books from cart : ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // useEffect() -> to get all books from cart of a particular user
   useEffect(() => {
-    // Define the async function to fetch cart books
-    const getAllCartBooks = async () => {
-      try {
-        const response = await axios.get("/api/v1/get-user-cart", { headers });
+    setLoading(true);
 
-        setCartBooks(response.data.allCartBooks);
-      } catch (error) {
-        console.error("Error while fetching all books from cart : ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Call the function to fetch data only if cartBooks has actually changed to avoid infinite loop
-    if (prevCartBooks !== CartBooks) {
-      getAllCartBooks();
-    }
-  }, []); // Dependency array with cartBooks to trigger the effect when it changes
+    getAllCartBooks();
+  }, [cartUpdated]); // Fetch CartBooks from backend database when cartUpdated changes
 
   console.log(CartBooks);
 
@@ -72,7 +62,15 @@ export const Cart = () => {
 
   // render all books from CartList
   const renderCartList = CartBooks.map((item, index) => {
-    return <CartCard key={index} data={item} headers={headers} />;
+    return (
+      <CartCard
+        key={index}
+        data={item}
+        headers={headers}
+        cartUpdated={cartUpdated}
+        setCartUpdated={setCartUpdated}
+      />
+    );
   });
 
   // Place order -> take all items from cart and put it in orders

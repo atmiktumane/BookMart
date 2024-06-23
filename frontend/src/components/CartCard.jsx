@@ -3,7 +3,7 @@ import React from "react";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 
-export const CartCard = ({ data, headers }) => {
+export const CartCard = ({ data, headers, cartUpdated, setCartUpdated }) => {
   console.log(data);
 
   // handle Remove Book From Cart
@@ -16,6 +16,7 @@ export const CartCard = ({ data, headers }) => {
       );
 
       alert(response.data.message);
+      setCartUpdated((prev) => !prev); // Toggle cartUpdated to trigger re-fetch
     } catch (error) {
       console.error("Error while removing book from cart : ", error);
     }
