@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import axios from "axios";
 
-export const BookCard = ({ data, isBookFavourite }) => {
+export const BookCard = ({
+  data,
+  isBookFavourite,
+  favouritesUpdated,
+  setFavouritesUpdated,
+}) => {
   // console.log(data);
 
   // headers to be passed to backend
@@ -22,6 +27,8 @@ export const BookCard = ({ data, isBookFavourite }) => {
         { headers }
       );
       alert(response.data.message);
+
+      setFavouritesUpdated((prev) => !prev); // Toggle cartUpdated to trigger re-fetch
     } catch (error) {
       console.error("Error while removing book from favourites", error);
     }
