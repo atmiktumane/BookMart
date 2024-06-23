@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CartCard, Loader } from "../components";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
