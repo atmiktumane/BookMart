@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { Loader } from "../Loader";
 
 export const UserOrderHistory = () => {
   // state -> to store user's order data
   const [OrderData, setOrderData] = useState([]);
+
+  // Loader
+  const [loading, setLoading] = useState(true);
 
   // headers object -> containing user id and Bearer token
   const headers = {
@@ -24,6 +28,8 @@ export const UserOrderHistory = () => {
         setOrderData(response.data.data);
       } catch (error) {
         console.error("Error while fetching user order history : ", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -78,25 +84,35 @@ export const UserOrderHistory = () => {
   });
 
   return (
-    <section className="h-[100%] mt-7 md:mt-0 p-0 md:p-4">
-      <h2 className="text-zinc-500 text-2xl md:text-4xl font-semibold">
-        Your Order History
-      </h2>
+    <>
+      {loading === true ? (
+        <div className="h-[70vh] flex justify-center items-center">
+          <Loader />
+        </div>
+      ) : OrderData.length > 0 ? (
+        <div className="h-[100%] mt-7 md:mt-0 p-0 md:p-4">
+          <h2 className="text-zinc-500 text-2xl md:text-4xl font-semibold">
+            Your Order History
+          </h2>
 
-      {/* Subheadings */}
-      <div className="bg-zinc-800 w-full text-zinc-200 mt-7 flex p-0.5 md:p-4 gap-2 text-base md:text-lg">
-        <h6 className="w-[5%] text-right md:text-justify">Sr.</h6>
-        <h6 className="w-[15%]">Books</h6>
-        <h6 className="w-[45%]">Description</h6>
-        <h6 className="w-[10%]">Price</h6>
-        <h6 className="w-[15%]">Status</h6>
-        <h6 className="w-none md:w-[10%] hidden md:block">Mode</h6>
-      </div>
+          {/* Subheadings */}
+          <div className="bg-zinc-800 w-full text-zinc-200 mt-7 flex p-0.5 md:p-4 gap-2 text-base md:text-lg">
+            <h6 className="w-[5%] text-right md:text-justify">Sr.</h6>
+            <h6 className="w-[15%]">Books</h6>
+            <h6 className="w-[45%]">Description</h6>
+            <h6 className="w-[10%]">Price</h6>
+            <h6 className="w-[15%]">Status</h6>
+            <h6 className="w-none md:w-[10%] hidden md:block">Mode</h6>
+          </div>
 
-      {/* Order list */}
-      <ul className="bg-zinc-800 w-full text-zinc-200 flex flex-col">
-        {renderOrderList}
-      </ul>
-    </section>
+          {/* Order list */}
+          <ul className="bg-zinc-800 w-full text-zinc-200 flex flex-col">
+            {renderOrderList}
+          </ul>
+        </div>
+      ) : (
+        <p className="p-4 text-xl">Not placed any order yet!</p>
+      )}
+    </>
   );
 };
