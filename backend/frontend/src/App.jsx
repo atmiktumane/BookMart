@@ -14,16 +14,12 @@ import {
 import { AllBooks, Cart, Home, Login, Profile, Signup } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authSlice";
-import axios from "axios";
 
 const App = () => {
   const dispatch = useDispatch();
 
   // get "role" state from redux store
   const role = useSelector((state) => state.authState.role);
-
-  // to not get error while deploying to vercel
-  axios.defaults.withCredentials = true;
 
   useEffect(() => {
     // if {id, role, token} is already present in localStorage, that means, user is already logged in
