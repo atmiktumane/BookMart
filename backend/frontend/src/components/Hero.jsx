@@ -21,7 +21,7 @@ export const Hero = () => {
         {/* Button */}
         <Link
           to="/all-books"
-          className="mt-8 text-purple-300 text-xl lg:text-2xl font-semibold border border-purple-300 px-10 py-2 rounded-full hover:bg-zinc-800"
+          className="m-8 text-purple-300 text-xl lg:text-2xl font-semibold border border-purple-300 px-10 py-2 rounded-full hover:bg-zinc-800"
         >
           Discover Books
         </Link>
